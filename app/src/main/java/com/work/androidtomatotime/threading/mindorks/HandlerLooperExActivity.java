@@ -11,7 +11,7 @@ import com.work.androidtomatotime.R;
 
 public class HandlerLooperExActivity extends AppCompatActivity {
 
-    SimpleWorker mSimpleWorker;
+    Worker mSimpleWorker;
     TextView textView;
 
     Handler handler = new Handler(Looper.getMainLooper()){
@@ -29,7 +29,7 @@ public class HandlerLooperExActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.textview);
 
-        mSimpleWorker = new SimpleWorker();
+        mSimpleWorker = new Worker();
 
         mSimpleWorker.execute(() -> {
 
