@@ -23,10 +23,14 @@ public class SimpleWorker extends Thread {
 
     @Override
     public void run() {
+        Log.d(TAG, "Run");
         while (mAlive.get()) {
             Runnable task = taskQueue.poll();
             if (task != null) {
+                Log.d(TAG, "Task Run");
                 task.run();
+            }else {
+                Log.d(TAG, "Task Null");
             }
         }
 

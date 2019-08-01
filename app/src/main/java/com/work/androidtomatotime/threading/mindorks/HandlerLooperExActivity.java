@@ -63,7 +63,7 @@ public class HandlerLooperExActivity extends AppCompatActivity {
             Message message = Message.obtain();
             message.obj = "3st Task Completed";
             handler.sendMessage(message);
-            
+
         });
 
     }
