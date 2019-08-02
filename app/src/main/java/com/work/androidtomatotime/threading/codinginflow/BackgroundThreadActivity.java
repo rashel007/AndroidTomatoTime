@@ -46,7 +46,7 @@ public class BackgroundThreadActivity extends AppCompatActivity {
     public void stopThread() {
 
     }
-    
+
 
 
     class BackgroundThread extends Thread {
