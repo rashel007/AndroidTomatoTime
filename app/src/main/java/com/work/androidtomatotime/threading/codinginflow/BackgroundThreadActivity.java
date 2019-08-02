@@ -1,6 +1,7 @@
 package com.work.androidtomatotime.threading.codinginflow;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,6 +15,9 @@ public class BackgroundThreadActivity extends AppCompatActivity {
     private static final String TAG = "BackgroundThreadActivit";
 
     Button btnStartThread, btnStopThread;
+
+    // To update UI element from other thread
+    Handler mainHandler = new Handler(); // this is an android class
 
 
     @Override
@@ -39,15 +43,26 @@ public class BackgroundThreadActivity extends AppCompatActivity {
 
 
     public void startThread() {
-        BackgroundThread backgroundThread = new BackgroundThread(10);
-        backgroundThread.start();
+
+//        BackgroundThread backgroundThread = new BackgroundThread(10);
+//        backgroundThread.start();
+
+        ExampleHandlerThread exampleHandlerThread = new ExampleHandlerThread(10);
+
+        // if we do this. then the runnable object run on the UIThread
+        // exampleHandlerThread.run();
+
+        new Thread(exampleHandlerThread).start();
     }
 
     public void stopThread() {
 
     }
 
-
+    /**
+     * If we change UI element in other then UIThread
+     * Then we will get CallFromWrongThread exception
+     */
 
     class BackgroundThread extends Thread {
 
@@ -64,6 +79,42 @@ public class BackgroundThreadActivity extends AppCompatActivity {
             for (int i = 0; i < seconds; i++) {
                 Log.d(TAG, "Thread Running " + i);
                 try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    class ExampleHandlerThread implements Runnable {
+
+
+        int seconds;
+
+        ExampleHandlerThread(int seconds) {
+            this.seconds = seconds;
+        }
+
+        @Override
+        public void run() {
+            for (int i = 0; i < seconds; i++) {
+                Log.d(TAG, "Thread Running " + i);
+                try {
+
+                    if (i == 5) {
+                        // if we do this we will get CallFromWrongThreadException
+//                        btnStartThread.setText("50%");
+                        // to update we have to do it like this
+                        mainHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                btnStartThread.setText("50%");
+                            }
+                        });
+                    }
+
+
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
