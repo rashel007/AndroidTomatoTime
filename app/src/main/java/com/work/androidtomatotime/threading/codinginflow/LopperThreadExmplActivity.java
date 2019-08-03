@@ -117,4 +117,5 @@ public class LopperThreadExmplActivity extends AppCompatActivity {
         looperThread.handler.sendMessage(message);
     }
 
+
 }
