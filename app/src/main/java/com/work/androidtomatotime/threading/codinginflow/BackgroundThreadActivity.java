@@ -10,6 +10,14 @@ import android.widget.Button;
 
 import com.work.androidtomatotime.R;
 
+/**
+ * Youtube Videos link
+ * Explained - Android UI thread/main thread
+ * https://www.youtube.com/watch?v=kpFwxJFYnOo
+ * Coding in Flow
+ * https://www.youtube.com/watch?v=TN-CGfzvBhc&list=PLrnPJCHvNZuD52mtV8NvazNYIyIVPVZRa&index=1
+ */
+
 public class BackgroundThreadActivity extends AppCompatActivity {
 
     private static final String TAG = "BackgroundThreadActivit";
