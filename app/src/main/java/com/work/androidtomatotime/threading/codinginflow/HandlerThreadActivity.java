@@ -1,8 +1,7 @@
 package com.work.androidtomatotime.threading.codinginflow;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
+import android.os.Message;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,8 +13,11 @@ public class HandlerThreadActivity extends AppCompatActivity {
 
     private static final String TAG = "HandlerThreadActivity";
 
-    private HandlerThread handlerThread = new HandlerThread("handlerThread");
-    private Handler handler;
+    private ExampleHandlerThread handlerThread = new ExampleHandlerThread();
+//    private Handler handler;
+
+    private ExampleRunnable1 exampleRunnable1;
+    private ExampleRunnable2 exampleRunnable2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,17 +26,31 @@ public class HandlerThreadActivity extends AppCompatActivity {
 
         handlerThread.start();
 
-        handler = new Handler(handlerThread.getLooper());
+//        handler = new Handler(handlerThread.getLooper());
+
+        exampleRunnable1 = new ExampleRunnable1();
+        exampleRunnable2 = new ExampleRunnable2();
+
+
     }
 
 
     public void doWork(View view) {
-        handler.postDelayed(new ExampleRunnable1(), 2000);
-        handler.post(new ExampleRunnable2());
+
+        Message message = Message.obtain();
+        message.what = 2;
+        handlerThread.getHandler().sendMessage(message);
+
+        handlerThread.getHandler().postDelayed(exampleRunnable1, 2000);
+        handlerThread.getHandler().post(exampleRunnable2);
 
     }
 
     public void removeMessage(View view) {
+        // if we pass null then it will remove all
+//        handler.removeCallbacksAndMessages(null);
+        //this will remove specific runnable
+        handlerThread.getHandler().removeCallbacks(exampleRunnable1);
     }
 
 
@@ -48,6 +64,7 @@ public class HandlerThreadActivity extends AppCompatActivity {
             }
         }
     }
+
 
     static class ExampleRunnable2 implements Runnable {
 
