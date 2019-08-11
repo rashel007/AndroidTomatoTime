@@ -2,7 +2,6 @@ package com.work.androidtomatotime.threading.codinginflow;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -25,10 +24,16 @@ public class ForgroundServiceActivity extends AppCompatActivity {
     public void startService(View v) {
         String input = editText.getText().toString();
 
-        Intent intentService = new Intent(this, ExampleIntentService.class);
-        intentService.putExtra("inputExtra", input);
+//        Intent intentService = new Intent(this, ExampleIntentService.class);
+//        intentService.putExtra("inputExtra", input);
+//        ContextCompat.startForegroundService(this, intentService);
 
-        ContextCompat.startForegroundService(this, intentService);
+        // jobintentservice
+        Intent intentService = new Intent(this, ExJobIntentService.class);
+        intentService.putExtra("inputExtra", input);
+        ExJobIntentService.enqueueWork(this, intentService);
+
+
     }
 
     public void cancelService(View v) {
